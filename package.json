@@ -1,0 +1,19 @@
+{
+  "name": "cookbook",
+  "version": "0.0.1",
+  "description": "Simple application to store and fetch recipes",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/djmclaugh/cookbook.git"
+  },
+  "author": "",
+  "license": "Unlicense",
+  "bugs": {
+    "url": "https://github.com/djmclaugh/cookbook/issues"
+  },
+  "homepage": "https://github.com/djmclaugh/cookbook#readme"
+}
