@@ -4,6 +4,8 @@
   "description": "Simple application to store and fetch recipes",
   "private": true,
   "scripts": {
+    "build-server": "tsc --p server",
+    "run-server": "npm run build-server && node server/main.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -15,5 +17,14 @@
   "bugs": {
     "url": "https://github.com/djmclaugh/cookbook/issues"
   },
-  "homepage": "https://github.com/djmclaugh/cookbook#readme"
+  "homepage": "https://github.com/djmclaugh/cookbook#readme",
+  "dependencies": {
+    "koa": "^2.11.0",
+    "koa-static": "^5.0.0"
+  },
+  "devDependencies": {
+    "@types/koa": "^2.11.3",
+    "@types/koa-static": "^4.0.1",
+    "typescript": "^3.8.3"
+  }
 }
