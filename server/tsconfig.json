@@ -5,6 +5,8 @@
     "module": "commonjs",
     "esModuleInterop": true,
     "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "lib": ["es2015"]
   },
   "include": ["."]

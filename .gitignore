@@ -1,5 +1,11 @@
+# node modules
 node_modules
+
+# generated files
 client/**/*.js
 public/bundle.js
 server/**/*.js
 shared/**/*.js
+
+# default sqlite database
+cookbook.db
