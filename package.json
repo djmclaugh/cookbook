@@ -5,7 +5,9 @@
   "private": true,
   "scripts": {
     "build-server": "tsc --p server",
+    "build-client": "tsc --p client && webpack",
     "run-server": "npm run build-server && node server/main.js",
+    "start": "npm run build-client && npm run run-server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -20,11 +22,15 @@
   "homepage": "https://github.com/djmclaugh/cookbook#readme",
   "dependencies": {
     "koa": "^2.11.0",
-    "koa-static": "^5.0.0"
+    "koa-static": "^5.0.0",
+    "vue": "^2.6.11",
+    "vue-class-component": "^7.2.3"
   },
   "devDependencies": {
     "@types/koa": "^2.11.3",
     "@types/koa-static": "^4.0.1",
-    "typescript": "^3.8.3"
+    "typescript": "^3.8.3",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11"
   }
 }

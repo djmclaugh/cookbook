@@ -1,4 +1,5 @@
 node_modules
 client/**/*.js
+public/bundle.js
 server/**/*.js
 shared/**/*.js
