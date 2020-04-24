@@ -17,7 +17,9 @@ const NOT_FOUND: Result<any> = { status: 404 }
 const METHOD_NOT_ALLOWED: Result<any> = { status: 405}
 const NOT_IMPLEMENTED: Result<any> = { status: 501 }
 
-export const router: Router = new Router();
+export const router: Router = new Router({
+  prefix: '/api',
+});
 router.use(bodyParser());
 
 // The types E(P|REQ|RES) stands for "extended params|request|response". They are needed to ensure
