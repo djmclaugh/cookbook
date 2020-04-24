@@ -1,9 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, Unique } from 'typeorm';
 
-import { Recipe as RecipeInterface } from '../../shared/recipe';
+import { Recipe } from '../../shared/recipe';
 
 @Entity()
-export default class Recipe implements RecipeInterface {
+@Unique(['title'])
+export default class RecipeModel extends BaseEntity implements Recipe {
   @PrimaryGeneratedColumn()
   id!: number;
 
