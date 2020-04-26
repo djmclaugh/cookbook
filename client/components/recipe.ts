@@ -16,7 +16,7 @@ const RecipeProps = Vue.extend({
 @Component
 export default class RecipeComponent extends RecipeProps {
   // Data
-  isEditingTitle: boolean = false;
+  // No Data
 
   // Computed
   get headerElement(): VNode {
