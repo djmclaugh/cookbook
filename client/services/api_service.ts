@@ -1,8 +1,8 @@
 import * as http from 'http';
 
-import { Endpoint } from '../shared/api';
+import { Endpoint } from '../../shared/api';
 
-import { getConfig, ServerConfig } from './config';
+import { getConfig, ServerConfig } from '../config';
 
 const config: ServerConfig = getConfig().server;
 const API_BASE = '/api';

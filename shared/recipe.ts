@@ -6,6 +6,10 @@ export interface Recipe extends RecipeDraft {
   readonly id: number,
 }
 
+export function isRecipeDraft(x: any): x is RecipeDraft {
+  return typeof x.title === 'string';
+}
+
 export function sanitizeRecipeDraft(x: any): RecipeDraft {
   if (typeof x.title !== 'string') {
     throw new Error('Expected property "title" of type "string"');
@@ -13,6 +17,10 @@ export function sanitizeRecipeDraft(x: any): RecipeDraft {
   return {
     title: x.title,
   };
+}
+
+export function isRecipe(x: any): x is Recipe {
+  return typeof x.id === 'number' && isRecipeDraft(x);
 }
 
 export function sanitizeRecipe(x: any): Recipe {

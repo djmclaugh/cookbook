@@ -3,3 +3,17 @@ body {
   font-family: sans-serif;
   background-color: #f9f9f9;
 }
+
+.recipe-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.recipe-card {
+  margin: 4px;
+  padding: 8px;
+  background-color: #fcfcfc;
+  border: solid 1px #0c0c0c;
+  border-radius: 4px;
+  box-shadow: 0px 4px 4px 0 rgba(0,0,0,0.2);
+}
