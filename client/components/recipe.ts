@@ -3,6 +3,8 @@ import Component from 'vue-class-component';
 
 import { Recipe, isRecipe } from '../../shared/recipe';
 
+import { deleteRecipe } from '../services/recipe_service';
+
 const RecipeProps = Vue.extend({
   props: {
     recipe: {
@@ -14,20 +16,50 @@ const RecipeProps = Vue.extend({
 @Component
 export default class RecipeComponent extends RecipeProps {
   // Data
-  // No Data
+  isEditingTitle: boolean = false;
 
   // Computed
-  // No computed
+  get headerElement(): VNode {
+    const elements: VNode[] = [];
+
+    elements.push(this.$createElement('h3', this.recipe.title));
+    elements.push(this.$createElement('button', {
+      on: {
+        click: this.onDeleteClick
+      }
+    }, 'Delete'));
+
+    return this.$createElement('div', {
+      class: {
+        'recipe-header': true,
+      }
+    }, elements);
+  }
 
   // Methods
-  // No methods
+  async onDeleteClick(event: any) {
+    event.target.disabled = true;
+    try {
+      await deleteRecipe(this.recipe);
+    } catch(e) {
+      event.target.disabled = false;
+      this.$emit('error', this.recipe, e);
+      throw e;
+    }
+    this.$emit('delete', this.recipe);
+  }
 
   // Hooks
   render(): VNode {
+    const elements: VNode[] = [];
+
+    elements.push(this.headerElement);
+    elements.push(this.$createElement('p', 'This is one tasty recipe you won\'t forget!'));
+
     return this.$createElement('div', {
       class: {
         'recipe-card': true,
       }
-    }, this.recipe.title);
+    }, elements);
   }
 }

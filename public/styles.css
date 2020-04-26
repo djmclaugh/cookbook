@@ -11,9 +11,21 @@ body {
 
 .recipe-card {
   margin: 4px;
-  padding: 8px;
+  padding-left: 12px;
+  padding-right: 12px;
   background-color: #fcfcfc;
   border: solid 1px #0c0c0c;
   border-radius: 4px;
   box-shadow: 0px 4px 4px 0 rgba(0,0,0,0.2);
+}
+
+.recipe-header {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.recipe-header > button {
+  margin-left: 16px;
 }

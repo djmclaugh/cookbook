@@ -45,6 +45,11 @@ export default class RootComponent extends RootProps {
         props: {
           recipe: r,
         },
+        on: {
+          delete: this.onRecipeDelete,
+          // Error most likely occured because of out of date data. Refetch the recipes.
+          error: this.fetchRecipes,
+        },
       });
     });
   }
@@ -76,6 +81,13 @@ export default class RootComponent extends RootProps {
     const newRecipe = await createRecipe({ title: this.nextAvailableTitle() });
     event.target.disabled = false;
     this.recipes!.unshift(newRecipe);
+  }
+
+  onRecipeDelete(recipe: Recipe) {
+    const index: number = this.recipes!.indexOf(recipe);
+    if (index !== -1) {
+      this.recipes!.splice(index, 1);
+    }
   }
 
   // Hooks

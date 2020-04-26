@@ -48,7 +48,11 @@ export function call<P, REQ, RES, EP extends P, EREQ extends REQ>(
       });
       res.on('end', () => {
         if (res.statusCode && res.statusCode >= 200 && res.statusCode < 300) {
-          resolve(endpoint.sanitizeResponse(JSON.parse(response)));
+          if (response.length > 0) {
+            resolve(endpoint.sanitizeResponse(JSON.parse(response)));
+          } else {
+            resolve(endpoint.sanitizeResponse({}));
+          }
         } else {
           reject(res.statusCode + ': ' + response);
         }
