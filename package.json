@@ -24,16 +24,19 @@
     "@koa/router": "^8.0.8",
     "koa": "^2.11.0",
     "koa-bodyparser": "^4.3.0",
+    "koa-send": "^5.0.0",
     "koa-static": "^5.0.0",
     "sqlite3": "^4.1.1",
     "typeorm": "^0.2.24",
     "vue": "^2.6.11",
-    "vue-class-component": "^7.2.3"
+    "vue-class-component": "^7.2.3",
+    "vue-router": "^3.1.6"
   },
   "devDependencies": {
     "@types/koa": "^2.11.3",
     "@types/koa-bodyparser": "^4.3.0",
     "@types/koa-router": "^7.4.0",
+    "@types/koa-send": "^4.1.2",
     "@types/koa-static": "^4.0.1",
     "@types/koa__router": "^8.0.2",
     "typescript": "^3.8.3",

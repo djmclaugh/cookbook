@@ -1,4 +1,5 @@
 import Koa from 'koa';
+import send from 'koa-send';
 import serve from 'koa-static';
 
 import { getConfig, Config } from './config';
@@ -11,6 +12,11 @@ const config: Config = getConfig();
 const app = new Koa();
 app.use(serve('public'));
 app.use(router.routes());
+// Catch-all to support Vue's Router
+app.use(async (ctx) => {
+  await send(ctx, 'index.html', {root: 'public'});
+});
+
 app.listen(config.port);
 console.log(`Started cookbook server on port ${ config.port }.`);
 

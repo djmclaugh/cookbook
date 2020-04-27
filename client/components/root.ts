@@ -4,7 +4,7 @@ import Component from 'vue-class-component';
 import { Recipe } from '../../shared/recipe';
 
 import { listRecipes, createRecipe } from '../services/recipe_service';
-import RecipeComponent from './recipe';
+import RecipeCardComponent from './recipe_card';
 
 const RootProps = Vue.extend({
   // No props
@@ -12,7 +12,7 @@ const RootProps = Vue.extend({
 
 @Component({
   components: {
-    recipe: RecipeComponent,
+    recipe: RecipeCardComponent,
   },
 })
 export default class RootComponent extends RootProps {

@@ -5,7 +5,7 @@ import { Recipe, isRecipe } from '../../shared/recipe';
 
 import { deleteRecipe } from '../services/recipe_service';
 
-const RecipeProps = Vue.extend({
+const RecipeCardProps = Vue.extend({
   props: {
     recipe: {
       validator: isRecipe,
@@ -14,7 +14,7 @@ const RecipeProps = Vue.extend({
 });
 
 @Component
-export default class RecipeComponent extends RecipeProps {
+export default class RecipeCardComponent extends RecipeCardProps {
   // Data
   // No Data
 
@@ -22,7 +22,13 @@ export default class RecipeComponent extends RecipeProps {
   get headerElement(): VNode {
     const elements: VNode[] = [];
 
-    elements.push(this.$createElement('h3', this.recipe.title));
+    elements.push(this.$createElement('router-link', {
+      props: {
+        to: '/recipes/' + this.recipe.id,
+      }
+    }, [
+      this.$createElement('h3', this.recipe.title),
+    ]));
     elements.push(this.$createElement('button', {
       on: {
         click: this.onDeleteClick

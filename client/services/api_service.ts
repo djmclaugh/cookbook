@@ -54,7 +54,7 @@ export function call<P, REQ, RES, EP extends P, EREQ extends REQ>(
             resolve(endpoint.sanitizeResponse({}));
           }
         } else {
-          reject(res.statusCode + ': ' + response);
+          reject(new Error(res.statusCode + ': ' + response));
         }
       });
     });
