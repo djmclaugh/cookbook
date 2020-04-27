@@ -1,18 +1,18 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 
-import NotFoundPageComponent from './components/not_found_page';
-import RootComponent from './components/root';
-import RecipePageComponent from './components/recipe_page';
+import NotFoundPage from './pages/not_found_page';
+import LandingPage from './pages/landing_page';
+import RecipePage from './pages/recipe_page';
 
 Vue.use(VueRouter);
 
 const router = new VueRouter({
   mode: 'history',
   routes: [
-    { path: '/', component: RootComponent },
-    { path: '/recipes/:recipeId', component: RecipePageComponent },
-    { path: '*', component: NotFoundPageComponent },
+    { path: '/', component: LandingPage },
+    { path: '/recipes/:recipeId', component: RecipePage },
+    { path: '*', component: NotFoundPage },
   ],
 });
 

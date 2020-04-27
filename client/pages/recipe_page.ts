@@ -10,7 +10,7 @@ const RecipePageProps = Vue.extend({
 });
 
 @Component
-export default class RecipePageComponent extends RecipePageProps {
+export default class RecipePage extends RecipePageProps {
   // Data
   recipe: Recipe|null = null;
   error: Error|null = null;

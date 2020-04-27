@@ -4,9 +4,9 @@ import Component from 'vue-class-component';
 import { Recipe } from '../../shared/recipe';
 
 import { listRecipes, createRecipe } from '../services/recipe_service';
-import RecipeCardComponent from './recipe_card';
+import RecipeCardComponent from '../components/recipe_card';
 
-const RootProps = Vue.extend({
+const LandingPageProps = Vue.extend({
   // No props
 });
 
@@ -15,7 +15,7 @@ const RootProps = Vue.extend({
     recipe: RecipeCardComponent,
   },
 })
-export default class RootComponent extends RootProps {
+export default class LandingPage extends LandingPageProps {
   // Data
   recipes: Recipe[]|null = null;
 

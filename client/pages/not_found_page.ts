@@ -6,7 +6,7 @@ const NotFoundPageProps = Vue.extend({
 });
 
 @Component
-export default class NotFoundPageComponent extends NotFoundPageProps {
+export default class NotFoundPage extends NotFoundPageProps {
   // Data
   // No Data
 
