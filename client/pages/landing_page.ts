@@ -80,7 +80,6 @@ export default class LandingPage extends LandingPageProps {
     event.target.disabled = true;
     const newRecipe = await createRecipe({
       title: this.nextAvailableTitle(),
-      ingredients: [],
     });
     event.target.disabled = false;
     this.recipes!.unshift(newRecipe);

@@ -64,7 +64,7 @@ function addEndpoint<P, REQ, RES, EP extends P, EREQ extends REQ, ERES extends R
 }
 
 addEndpoint(recipeEndpoints.list, async () => {
-  const allRecipes = await RecipeModel.find();
+  const allRecipes = await RecipeModel.fetchAllRecipes();
   return {
     status: 200,
     response: allRecipes
@@ -72,8 +72,7 @@ addEndpoint(recipeEndpoints.list, async () => {
 });
 
 addEndpoint(recipeEndpoints.create, async (params: undefined, request: RecipeDraft) => {
-  const recipeWithSameName = await RecipeModel.findOne({title: request.title});
-  if (recipeWithSameName) {
+  if (await RecipeModel.doesRecipeWithTitleExist(request.title)) {
     return {
       status: 409,
       errorMessage: `Recipe with title "${ request.title }" already exists.`
@@ -81,14 +80,6 @@ addEndpoint(recipeEndpoints.create, async (params: undefined, request: RecipeDra
   }
   const newRecipe = new RecipeModel();
   newRecipe.title = request.title;
-  const ingredientNames = request.ingredients.map((i: QuantifiedIngredient) => i.ingredient.name);
-  const ingredients = await IngredientModel.getOrCreate(ingredientNames);
-  newRecipe.ingredients = request.ingredients.map((i: QuantifiedIngredient) => {
-    const relation = new RecipeIngredientRelationModel();
-    relation.ingredient = ingredients.get(i.ingredient.name)!;
-    relation.quantity = i.quantity;
-    return relation;
-  });
   await newRecipe.save();
   return {
     status: 200,
@@ -97,7 +88,7 @@ addEndpoint(recipeEndpoints.create, async (params: undefined, request: RecipeDra
 });
 
 addEndpoint(recipeEndpoints.get, async (params: { recipeId: string }) => {
-  const recipe = await RecipeModel.findOne(Number.parseInt(params.recipeId));
+  const recipe = await RecipeModel.fetchRecipeById(Number.parseInt(params.recipeId));
   return !recipe ? NOT_FOUND : {
     status: 200,
     response: recipe,

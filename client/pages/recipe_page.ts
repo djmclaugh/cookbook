@@ -1,7 +1,7 @@
 import Vue, { VNode } from 'vue';
 import Component from 'vue-class-component';
 
-import { Recipe } from '../../shared/recipe';
+import { RecipeWithIngredients } from '../../shared/recipe';
 
 import { getRecipe } from '../services/recipe_service';
 
@@ -12,7 +12,7 @@ const RecipePageProps = Vue.extend({
 @Component
 export default class RecipePage extends RecipePageProps {
   // Data
-  recipe: Recipe|null = null;
+  recipe: RecipeWithIngredients|null = null;
   error: Error|null = null;
 
   // Computed

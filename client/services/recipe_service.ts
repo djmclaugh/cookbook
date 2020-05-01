@@ -1,5 +1,5 @@
 import { recipeEndpoints } from '../../shared/api';
-import { Recipe, RecipeDraft } from '../../shared/recipe';
+import { Recipe, RecipeDraft, RecipeWithIngredients } from '../../shared/recipe';
 
 import { call, simpleCall, callWithParams, callWithRequest } from './api_service';
 
@@ -11,7 +11,7 @@ export function createRecipe(draft: RecipeDraft): Promise<Recipe> {
   return callWithRequest(recipeEndpoints.create, draft);
 }
 
-export function getRecipe(recipeId: number): Promise<Recipe> {
+export function getRecipe(recipeId: number): Promise<RecipeWithIngredients> {
   return callWithParams(recipeEndpoints.get, {recipeId: '' + recipeId});
 }
 

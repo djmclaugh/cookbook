@@ -8,13 +8,13 @@ import {
   Unique,
 } from 'typeorm';
 
-import { Recipe } from '../../shared/recipe';
+import { Recipe, RecipeWithIngredients } from '../../shared/recipe';
 
 import RecipeIngredientRelationModel from './recipe_ingredient_relation_model';
 
 @Entity()
 @Unique(['title'])
-export default class RecipeModel extends BaseEntity implements Recipe {
+export default class RecipeModel extends BaseEntity implements RecipeWithIngredients {
   @PrimaryGeneratedColumn()
   id!: number;
 
@@ -24,7 +24,7 @@ export default class RecipeModel extends BaseEntity implements Recipe {
   @OneToMany(
     () => RecipeIngredientRelationModel,
     relation => relation.recipe,
-    { cascade: true, eager: true },
+    { cascade: true },
   )
   ingredients!: RecipeIngredientRelationModel[];
 
@@ -59,5 +59,21 @@ export default class RecipeModel extends BaseEntity implements Recipe {
       this.sortIngredients();
     });
     return this;
+  }
+
+  static fetchAllRecipes(): Promise<Recipe[]> {
+    return RecipeModel.find();
+  }
+
+  static async doesRecipeWithTitleExist(title: string): Promise<boolean> {
+    return await RecipeModel.findOne({title: title}) !== undefined;
+  }
+
+  static fetchRecipeById(id: number): Promise<RecipeWithIngredients|undefined> {
+    return RecipeModel.findOne(id, { relations: ['ingredients'] });
+  }
+
+  static fetchRecipeByTitle(title: string): Promise<RecipeWithIngredients|undefined> {
+    return RecipeModel.findOne({ title: title }, { relations: ['ingredients'] });
   }
 }

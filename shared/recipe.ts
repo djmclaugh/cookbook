@@ -1,15 +1,11 @@
-import { arraySanitizer, isArray, sanitizePositiveInteger, sanitizeString } from './util';
-import { Quantity, isQuantity, sanitizeQuantity } from './quantity';
+import { arraySanitizer, sanitizePositiveInteger, sanitizeString } from './util';
+import { Quantity, sanitizeQuantity } from './quantity';
 
 export type QuantifiedIngredient = {
   quantity: Quantity,
   ingredient: {
     name: string
   },
-}
-
-export function isQuantifiedIngredient(x: any): x is QuantifiedIngredient {
-  return isQuantity(x.quanity) && typeof x.ingredient.name === 'string';
 }
 
 export function sanitizeQuantifiedIngredient(x: any, name: string): QuantifiedIngredient {
@@ -23,11 +19,6 @@ export function sanitizeQuantifiedIngredient(x: any, name: string): QuantifiedIn
 
 export interface RecipeDraft {
   title: string,
-  ingredients: QuantifiedIngredient[],
-}
-
-export function isRecipeDraft(x: any): x is RecipeDraft {
-  return typeof x.title === 'string' && isArray(x, isQuantifiedIngredient);
 }
 
 const sanitizeQuantifiedIngredientArray = arraySanitizer(sanitizeQuantifiedIngredient);
@@ -35,7 +26,6 @@ const sanitizeQuantifiedIngredientArray = arraySanitizer(sanitizeQuantifiedIngre
 export function sanitizeRecipeDraft(x: any, name: string): RecipeDraft {
   return {
     title: sanitizeString(x.title, name + '.title'),
-    ingredients: sanitizeQuantifiedIngredientArray(x.ingredients, name + '.ingredients'),
   };
 }
 
@@ -43,15 +33,23 @@ export interface Recipe extends RecipeDraft {
   readonly id: number,
 }
 
-export function isRecipe(x: any): x is Recipe {
-  return typeof x.id === 'number' && isRecipeDraft(x);
-}
-
 export function sanitizeRecipe(x: any, name: string): Recipe {
   const draft = sanitizeRecipeDraft(x, name);
   return {
     id: sanitizePositiveInteger(x.id, name + '.id'),
     title: draft.title,
-    ingredients: draft.ingredients,
+  };
+}
+
+export interface RecipeWithIngredients extends Recipe {
+  ingredients: QuantifiedIngredient[],
+}
+
+export function sanitizeRecipeWithIngredients(x: any, name: string): RecipeWithIngredients {
+  const recipe = sanitizeRecipe(x, name);
+  return {
+    id: recipe.id,
+    title: recipe.title,
+    ingredients: sanitizeQuantifiedIngredientArray(x.ingredients, name + '.ingredients'),
   };
 }

@@ -1,5 +1,5 @@
 import { Sanitizer, arraySanitizer } from './util';
-import { Recipe, RecipeDraft, sanitizeRecipe, sanitizeRecipeDraft } from './recipe';
+import { Recipe, RecipeDraft, RecipeWithIngredients, sanitizeRecipe, sanitizeRecipeDraft, sanitizeRecipeWithIngredients } from './recipe';
 
 /**
  * HTTP verbs used between the the back and front end.
@@ -80,15 +80,17 @@ const createRecipe: Endpoint<undefined, RecipeDraft, Recipe> = {
  * Possible errors:
  * 404 - if no recipe with the specified id exist.
  */
-const getRecipe: Endpoint<{recipeId: string}, undefined, Recipe> = {
+const getRecipe: Endpoint<{recipeId: string}, undefined, RecipeWithIngredients> = {
   path: '/recipes/:recipeId',
   verb: Verb.GET,
   sanitizeRequest: identity,
-  sanitizeResponse: sanitizeRecipe,
+  sanitizeResponse: sanitizeRecipeWithIngredients,
 }
 
 /**
  * Updates and returns the recipe with the specified id using the data in the request body.
+ * Only properties of the recipe itself can be updated. To update the list of ingredents, the
+ * "/recipes/:recipeId/ingredients" should be called instead.
  *
  * Possible errors:
  * 404 - if no recipe with the specified id exist.
