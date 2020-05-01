@@ -7,9 +7,7 @@ import { deleteRecipe } from '../services/recipe_service';
 
 const RecipeCardProps = Vue.extend({
   props: {
-    recipe: {
-      validator: isRecipe,
-    },
+    r: Object,
   },
 });
 
@@ -19,6 +17,10 @@ export default class RecipeCardComponent extends RecipeCardProps {
   // No Data
 
   // Computed
+  get recipe(): Recipe {
+    return this.r as Recipe;
+  }
+
   get headerElement(): VNode {
     const elements: VNode[] = [];
 

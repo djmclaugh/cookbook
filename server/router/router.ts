@@ -2,8 +2,10 @@ import Router from '@koa/router';
 import bodyParser from 'koa-bodyparser';
 
 import { Endpoint, recipeEndpoints } from '../../shared/api';
-import { Recipe, RecipeDraft } from '../../shared/recipe';
+import { QuantifiedIngredient, Recipe, RecipeDraft } from '../../shared/recipe';
 
+import IngredientModel from '../db/ingredient_model';
+import RecipeIngredientRelationModel from '../db/recipe_ingredient_relation_model';
 import RecipeModel from '../db/recipe_model';
 
 interface Result<T> {
@@ -22,16 +24,16 @@ export const router: Router = new Router({
 });
 router.use(bodyParser());
 
-// The types E(P|REQ|RES) stands for "extended params|request|response". They are needed to ensure
+// The types E(P|REQ|RES) stand for "extended params|request|response". They are needed to ensure
 // covariance/contravariance.
 function addEndpoint<P, REQ, RES, EP extends P, EREQ extends REQ, ERES extends RES>(
   endpoint: Endpoint<EP, EREQ, RES>,
   getResult: (params: P, request: REQ) => Promise<Result<ERES>>
 ): void {
   router[endpoint.verb](endpoint.path, async (ctx, next) => {
-    let sanitizedRequest;
+    let sanitizedRequest: EREQ;
     try {
-      sanitizedRequest = endpoint.sanitizeRequest(ctx.request.body);
+      sanitizedRequest = endpoint.sanitizeRequest(ctx.request.body, 'request');
     } catch(e) {
       ctx.throw(400, 'Bad request: ' + e.message);
       return;
@@ -41,9 +43,15 @@ function addEndpoint<P, REQ, RES, EP extends P, EREQ extends REQ, ERES extends R
       ctx.response.status = result.status;
       if (result.response) {
         // Response object should be of the correct type, but it might have additional properties
-        // that should not be included in the repsonse. Sanitizing the response will guarentee that
+        // that should not be included in the repsonse. Sanitizing the response will guarantee that
         // only the desired propeties are returned.
-        ctx.response.body = endpoint.sanitizeResponse(result.response);
+        try {
+          ctx.response.body = endpoint.sanitizeResponse(result.response, 'response');
+        } catch (e) {
+          console.log('Error encountered while trying to send response:');
+          console.log(result.response);
+          throw e;
+        }
       }
     } else {
       if (result.errorMessage) {
@@ -72,7 +80,15 @@ addEndpoint(recipeEndpoints.create, async (params: undefined, request: RecipeDra
     };
   }
   const newRecipe = new RecipeModel();
-  Object.assign(newRecipe, request);
+  newRecipe.title = request.title;
+  const ingredientNames = request.ingredients.map((i: QuantifiedIngredient) => i.ingredient.name);
+  const ingredients = await IngredientModel.getOrCreate(ingredientNames);
+  newRecipe.ingredients = request.ingredients.map((i: QuantifiedIngredient) => {
+    const relation = new RecipeIngredientRelationModel();
+    relation.ingredient = ingredients.get(i.ingredient.name)!;
+    relation.quantity = i.quantity;
+    return relation;
+  });
   await newRecipe.save();
   return {
     status: 200,
@@ -93,7 +109,8 @@ addEndpoint(recipeEndpoints.update, async (params: { recipeId: string }, request
   if (!recipe) {
     return NOT_FOUND;
   }
-  Object.assign(recipe, request);
+  // Only title can be updated for now
+  recipe.title = request.title;
   await recipe.save();
   return {
     status: 200,

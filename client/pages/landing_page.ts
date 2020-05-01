@@ -43,7 +43,7 @@ export default class LandingPage extends LandingPageProps {
       return this.$createElement('recipe', {
         key: r.id,
         props: {
-          recipe: r,
+          r: r,
         },
         on: {
           delete: this.onRecipeDelete,
@@ -78,7 +78,10 @@ export default class LandingPage extends LandingPageProps {
 
   async createNewRecipe(event: any) {
     event.target.disabled = true;
-    const newRecipe = await createRecipe({ title: this.nextAvailableTitle() });
+    const newRecipe = await createRecipe({
+      title: this.nextAvailableTitle(),
+      ingredients: [],
+    });
     event.target.disabled = false;
     this.recipes!.unshift(newRecipe);
   }

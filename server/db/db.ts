@@ -1,7 +1,10 @@
 import { Entity, PrimaryColumn, Column, Connection, createConnection } from 'typeorm';
 
 import { getConfig, Config } from '../config';
-import Recipe from './recipe_model';
+
+import IngredientModel from './ingredient_model';
+import RecipeIngredientRelationModel from './recipe_ingredient_relation_model';
+import RecipeModel from './recipe_model';
 
 const dbConfig = getConfig().database;
 let connection: Connection|null = null;
@@ -20,7 +23,9 @@ createConnection({
   type: dbConfig.type,
   database: dbConfig.location,
   entities: [
-    Recipe,
+    IngredientModel,
+    RecipeIngredientRelationModel,
+    RecipeModel,
   ],
   synchronize: true,
 }).then(c => {

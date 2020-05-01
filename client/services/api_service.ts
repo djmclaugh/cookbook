@@ -49,9 +49,9 @@ export function call<P, REQ, RES, EP extends P, EREQ extends REQ>(
       res.on('end', () => {
         if (res.statusCode && res.statusCode >= 200 && res.statusCode < 300) {
           if (response.length > 0) {
-            resolve(endpoint.sanitizeResponse(JSON.parse(response)));
+            resolve(endpoint.sanitizeResponse(JSON.parse(response), 'response'));
           } else {
-            resolve(endpoint.sanitizeResponse({}));
+            resolve(endpoint.sanitizeResponse({}, 'response'));
           }
         } else {
           reject(new Error(res.statusCode + ': ' + response));
@@ -59,7 +59,7 @@ export function call<P, REQ, RES, EP extends P, EREQ extends REQ>(
       });
     });
     if (request) {
-      httpRequest.write(JSON.stringify(endpoint.sanitizeRequest(request)));
+      httpRequest.write(JSON.stringify(endpoint.sanitizeRequest(request, 'request')));
     }
     httpRequest.on('error', (error) => {
       reject(error);

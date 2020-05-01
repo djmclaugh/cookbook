@@ -17,7 +17,7 @@ app.use(async (ctx) => {
   await send(ctx, 'index.html', {root: 'public'});
 });
 
-app.listen(config.port);
-console.log(`Started cookbook server on port ${ config.port }.`);
-
-onConnect(() => {});
+onConnect(async () => {
+  app.listen(config.port);
+  console.log(`Started cookbook server on port ${ config.port }.`);
+});
