@@ -49,3 +49,9 @@ export function sanitizePositiveInteger(x: any, name: string): number {
   // Since numbers are immutable, we can just return x itself.
   return x;
 }
+
+// Useful for when the object doesn't need to be sanitized, but a sanitizer is required anyway.
+// For example, in a endpoint with no response.
+export function identity(x: any, name: string): any {
+  return x;
+}

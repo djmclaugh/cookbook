@@ -1,6 +1,6 @@
 import * as http from 'http';
 
-import { Endpoint } from '../../shared/api';
+import { Endpoint } from '../../shared/endpoints/endpoints';
 
 import { getConfig, ServerConfig } from '../config';
 

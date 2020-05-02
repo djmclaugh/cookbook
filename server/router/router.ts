@@ -1,7 +1,8 @@
 import Router from '@koa/router';
 import bodyParser from 'koa-bodyparser';
 
-import { Endpoint, recipeEndpoints } from '../../shared/api';
+import { Endpoint } from '../../shared/endpoints/endpoints';
+import { recipeEndpoints } from '../../shared/endpoints/recipe_endpoints';
 import { QuantifiedIngredient, Recipe, RecipeDraft } from '../../shared/recipe';
 
 import IngredientModel from '../db/ingredient_model';
