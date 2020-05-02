@@ -7,12 +7,22 @@ import {
 
 import { Endpoint, Verb, simpleEndpoint } from './endpoints';
 
+// Path for the resource collection
+export const COLLECTION_PATH = '/recipes'
+// Path for one of the resource singletons
+export const SINGLETON_PATH = COLLECTION_PATH + '/:recipeId'
+
+// Parameters to specify which singleton to access
+export interface SingletonParams {
+  recipeId: string;
+}
+
 /**
  * Returns a list of all recipes.
  * Currently, no filter parameters are supported.
  */
 const listRecipes: Endpoint<undefined, undefined, Recipe[]> = {
-  path: '/recipes',
+  path: COLLECTION_PATH,
   verb: Verb.GET,
   sanitizeRequest: identity,
   sanitizeResponse: arraySanitizer(sanitizeRecipe),
@@ -25,7 +35,7 @@ const listRecipes: Endpoint<undefined, undefined, Recipe[]> = {
  * 409 - if the specified recipe as the same title as an existing one.
  */
 const createRecipe: Endpoint<undefined, RecipeDraft, Recipe> = {
-  path: '/recipes',
+  path: COLLECTION_PATH,
   verb: Verb.POST,
   sanitizeRequest: sanitizeRecipeDraft,
   sanitizeResponse: sanitizeRecipe,
@@ -37,8 +47,8 @@ const createRecipe: Endpoint<undefined, RecipeDraft, Recipe> = {
  * Possible errors:
  * 404 - if no recipe with the specified id exist.
  */
-const getRecipe: Endpoint<{recipeId: string}, undefined, RecipeWithIngredients> = {
-  path: '/recipes/:recipeId',
+const getRecipe: Endpoint<SingletonParams, undefined, RecipeWithIngredients> = {
+  path: SINGLETON_PATH,
   verb: Verb.GET,
   sanitizeRequest: identity,
   sanitizeResponse: sanitizeRecipeWithIngredients,
@@ -52,8 +62,8 @@ const getRecipe: Endpoint<{recipeId: string}, undefined, RecipeWithIngredients> 
  * Possible errors:
  * 404 - if no recipe with the specified id exist.
  */
-const updateRecipe: Endpoint<{recipeId: string}, RecipeDraft, Recipe> = {
-  path: '/recipes/:recipeId',
+const updateRecipe: Endpoint<SingletonParams, RecipeDraft, Recipe> = {
+  path: SINGLETON_PATH,
   verb: Verb.PUT,
   sanitizeRequest: sanitizeRecipeDraft,
   sanitizeResponse: sanitizeRecipe,
@@ -65,8 +75,8 @@ const updateRecipe: Endpoint<{recipeId: string}, RecipeDraft, Recipe> = {
  * Possible errors:
  * 404 - if no recipe with the specified id exist.
  */
-const deleteRecipe: Endpoint<{recipeId: string}, undefined, undefined> = {
-  path: '/recipes/:recipeId',
+const deleteRecipe: Endpoint<SingletonParams, undefined, undefined> = {
+  path: SINGLETON_PATH,
   verb: Verb.DELETE,
   sanitizeRequest: identity,
   sanitizeResponse: identity,
@@ -80,8 +90,8 @@ export const recipeEndpoints = {
   update: updateRecipe,
   delete: deleteRecipe,
   methodNotAllowed: [
-    simpleEndpoint('/recipes', Verb.PUT),
-    simpleEndpoint('/recipes', Verb.DELETE),
-    simpleEndpoint('/recipes/:recipeId', Verb.POST),
+    simpleEndpoint(COLLECTION_PATH, Verb.PUT),
+    simpleEndpoint(COLLECTION_PATH, Verb.DELETE),
+    simpleEndpoint(SINGLETON_PATH, Verb.POST),
   ],
 };
