@@ -8,8 +8,8 @@ import {
   Unique,
 } from 'typeorm';
 
-import { Quantity } from '../../shared/quantity';
-import { QuantifiedIngredient } from '../../shared/recipe';
+import { Quantity } from '../../shared/entities/quantity';
+import { QuantifiedIngredient } from '../../shared/entities/recipe';
 
 import RecipeModel from './recipe_model';
 import IngredientModel from './ingredient_model';

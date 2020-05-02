@@ -1,4 +1,5 @@
-import { arraySanitizer, sanitizePositiveInteger, sanitizeString } from './util';
+import { arraySanitizer, sanitizePositiveInteger, sanitizeString } from '../util';
+
 import { Quantity, sanitizeQuantity } from './quantity';
 
 export type QuantifiedIngredient = {

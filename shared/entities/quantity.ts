@@ -1,4 +1,4 @@
-import { arraySanitizer, sanitizePositiveInteger, sanitizeString } from './util';
+import { arraySanitizer, sanitizePositiveInteger, sanitizeString } from '../util';
 
 export interface Quantity {
   amount: number, // Must be whole and positive number

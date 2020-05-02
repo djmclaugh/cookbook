@@ -3,7 +3,7 @@ import bodyParser from 'koa-bodyparser';
 
 import { Endpoint } from '../../shared/endpoints/endpoints';
 import { recipeEndpoints } from '../../shared/endpoints/recipe_endpoints';
-import { QuantifiedIngredient, Recipe, RecipeDraft } from '../../shared/recipe';
+import { QuantifiedIngredient, Recipe, RecipeDraft } from '../../shared/entities/recipe';
 
 import IngredientModel from '../db/ingredient_model';
 import RecipeIngredientRelationModel from '../db/recipe_ingredient_relation_model';

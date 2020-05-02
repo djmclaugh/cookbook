@@ -8,7 +8,7 @@ import {
   Unique,
 } from 'typeorm';
 
-import { Recipe, RecipeWithIngredients } from '../../shared/recipe';
+import { Recipe, RecipeWithIngredients } from '../../shared/entities/recipe';
 
 import RecipeIngredientRelationModel from './recipe_ingredient_relation_model';
 

@@ -1,5 +1,5 @@
 import { recipeEndpoints } from '../../shared/endpoints/recipe_endpoints';
-import { Recipe, RecipeDraft, RecipeWithIngredients } from '../../shared/recipe';
+import { Recipe, RecipeDraft, RecipeWithIngredients } from '../../shared/entities/recipe';
 
 import { call, simpleCall, callWithParams, callWithRequest } from './api_service';
 

@@ -1,7 +1,7 @@
 import Vue, { VNode } from 'vue';
 import Component from 'vue-class-component';
 
-import { Recipe } from '../../shared/recipe';
+import { Recipe } from '../../shared/entities/recipe';
 
 import { deleteRecipe } from '../services/recipe_service';
 

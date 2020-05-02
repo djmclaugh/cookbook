@@ -1,8 +1,9 @@
 import { arraySanitizer, identity } from '../util';
+
 import {
   Recipe, RecipeDraft, RecipeWithIngredients,
   sanitizeRecipe, sanitizeRecipeDraft, sanitizeRecipeWithIngredients
-} from '../recipe';
+} from '../entities/recipe';
 
 import { Endpoint, Verb, simpleEndpoint } from './endpoints';
 
