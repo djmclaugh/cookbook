@@ -10,6 +10,9 @@ export type QuantifiedIngredient = {
 }
 
 export function sanitizeQuantifiedIngredient(x: any, name: string): QuantifiedIngredient {
+  if (x === undefined) {
+    throw new Error(`Expected property "${name}" to not be of type QuantifiedIngredient`);
+  }
   return {
     quantity: sanitizeQuantity(x.quantity, name + '.quanity'),
     ingredient: {
@@ -22,9 +25,12 @@ export interface RecipeDraft {
   title: string,
 }
 
-const sanitizeQuantifiedIngredientArray = arraySanitizer(sanitizeQuantifiedIngredient);
+export const sanitizeQuantifiedIngredientArray = arraySanitizer(sanitizeQuantifiedIngredient);
 
 export function sanitizeRecipeDraft(x: any, name: string): RecipeDraft {
+  if (x === undefined) {
+    throw new Error(`Expected property "${name}" to be of type RecipeDraft`);
+  }
   return {
     title: sanitizeString(x.title, name + '.title'),
   };

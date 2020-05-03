@@ -1,6 +1,6 @@
 import Router from '@koa/router';
 
-import { Endpoint } from '../../shared/endpoints/endpoints';
+import { Endpoint, Verb } from '../../shared/endpoints/endpoints';
 
 export interface Result<T> {
   status: number,
@@ -17,12 +17,26 @@ export const NOT_IMPLEMENTED: Result<any> = { status: 501 }
  * Utility extension that adds the ability to add a route using an Endpoint object.
  */
 export class EndpointRouter extends Router {
+  // Store
+  private endpointsAdded: Map<Verb, string[]> = new Map([
+    [Verb.GET, []], [Verb.POST, []], [Verb.PUT, []], [Verb.DELETE, []],
+  ]);
+
   // The types E(P|REQ|RES) stand for "extended params|request|response". They are needed to ensure
   // covariance/contravariance.
   public addEndpoint<P, REQ, RES, EP extends P, EREQ extends REQ, ERES extends RES>(
     endpoint: Endpoint<EP, EREQ, RES>,
     getResult: (params: P, request: REQ) => Promise<Result<ERES>>
   ): void {
+    const path = endpoint.path;
+    const verb = endpoint.verb;
+
+    // Make sure the endpoint doesn't conflict with an already added one.
+    if (this.endpointsAdded.get(verb)!.includes(path)) {
+      throw new Error(`Trying to add multiple endpoints at path '${path}' for verb '${verb}'`);
+    }
+    this.endpointsAdded.get(verb)!.push(path);
+
     this[endpoint.verb](endpoint.path, async (ctx, next) => {
       let sanitizedRequest: EREQ;
       try {

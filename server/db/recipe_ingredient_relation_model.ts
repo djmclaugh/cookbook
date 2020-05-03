@@ -82,4 +82,26 @@ export default class RecipeIngredientRelationModel extends BaseEntity implements
     this.modifiers = quantity.modifiers;
     this.unit = quantity.unit;
   }
+
+  static async fetchIngredientsForRecipe(recipeId: number): Promise<QuantifiedIngredient[]> {
+    const list = await RecipeIngredientRelationModel.find({where: {recipe: {id: recipeId}}});
+    list.sort((a, b) => a.index - b.index);
+    return list;
+  }
+
+  static async newModel(draft: QuantifiedIngredient): Promise<RecipeIngredientRelationModel> {
+    return (await this.newModels([draft]))[0];
+  }
+
+  static async newModels(drafts: QuantifiedIngredient[]): Promise<RecipeIngredientRelationModel[]> {
+    const ingredientNames = drafts.map(d => d.ingredient.name);
+    const ingredients = await IngredientModel.getOrCreate(ingredientNames);
+
+    return drafts.map(d => {
+      const newIngredientRelation = new RecipeIngredientRelationModel();
+      newIngredientRelation.ingredient = ingredients.get(d.ingredient.name)!;
+      newIngredientRelation.quantity = d.quantity;
+      return newIngredientRelation;
+    });
+  }
 }

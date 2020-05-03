@@ -44,7 +44,6 @@ export default class RecipeModel extends BaseEntity implements RecipeWithIngredi
       if (this.ingredients) {
         for (const old of this.ingredientsAtLoad) {
           if (old.index >= this.ingredients.length || this.ingredients[old.index] != old) {
-            console.log("removeing old: " + old.index);
             old.recipe = this;
             await transactionalEnitytManager.remove(old);
           }
@@ -61,19 +60,24 @@ export default class RecipeModel extends BaseEntity implements RecipeWithIngredi
     return this;
   }
 
+  // The return type is Recipe[] instead of RecipeMode[] since the ingredients are not fetched.
   static fetchAllRecipes(): Promise<Recipe[]> {
     return RecipeModel.find();
+  }
+
+  static async doesRecipeWithIdExist(id: number): Promise<boolean> {
+    return await RecipeModel.findOne(id) !== undefined;
+  }
+
+  static fetchRecipeById(id: number): Promise<RecipeModel|undefined> {
+    return RecipeModel.findOne(id, { relations: ['ingredients'] });
   }
 
   static async doesRecipeWithTitleExist(title: string): Promise<boolean> {
     return await RecipeModel.findOne({title: title}) !== undefined;
   }
 
-  static fetchRecipeById(id: number): Promise<RecipeWithIngredients|undefined> {
-    return RecipeModel.findOne(id, { relations: ['ingredients'] });
-  }
-
-  static fetchRecipeByTitle(title: string): Promise<RecipeWithIngredients|undefined> {
+  static fetchRecipeByTitle(title: string): Promise<RecipeModel|undefined> {
     return RecipeModel.findOne({ title: title }, { relations: ['ingredients'] });
   }
 }

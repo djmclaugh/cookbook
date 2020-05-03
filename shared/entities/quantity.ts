@@ -10,6 +10,9 @@ export interface Quantity {
 const sanitizeStringArray = arraySanitizer(sanitizeString);
 
 export function sanitizeQuantity(x: any, name: string): Quantity {
+  if (x === undefined) {
+    throw new Error(`Expected property "${name}" to be of type Quantity`);
+  }
   return {
     amount: sanitizePositiveInteger(x.amount, name + '.amount'),
     amountDenominator: sanitizePositiveInteger(x.amountDenominator, name + '.amountDenominator'),
