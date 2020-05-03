@@ -12,9 +12,11 @@ const config: Config = getConfig();
 const app = new Koa();
 app.use(serve('public'));
 app.use(router.routes());
-// Catch-all to support Vue's Router
+// GET catch-all to support Vue's Router
 app.use(async (ctx) => {
-  await send(ctx, 'index.html', {root: 'public'});
+  if (ctx.request.method === 'GET') {
+    await send(ctx, 'index.html', {root: 'public'});
+  }
 });
 
 onConnect(async () => {
