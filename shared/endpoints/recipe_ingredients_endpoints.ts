@@ -71,7 +71,7 @@ export const recipeIngredientsEndpoints = {
     // Delete is not supported because the id of the ingredient is actually the index of the
     // ingredient in the recipe's ingredients array. Therefore calling delete on
     // /recipes/123/ingredients/0 twice will first delete the first element and then the element
-    // that element that was originally second, but is now first. This is not idempotent.
+    // that was originally second, but is now first. This is not idempotent.
     // To delete an ingredient, the put verb on the collection path can be used.
     simpleEndpoint(SINGLETON_PATH, Verb.DELETE),
   ],
