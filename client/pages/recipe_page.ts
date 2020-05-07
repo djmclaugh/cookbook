@@ -3,13 +3,18 @@ import Component from 'vue-class-component';
 
 import { RecipeWithIngredients } from '../../shared/entities/recipe';
 
+import IngredientListItemComponent from '../components/ingredient_list';
 import { getRecipe } from '../services/recipe_service';
 
 const RecipePageProps = Vue.extend({
   // No props
 });
 
-@Component
+@Component({
+  components: {
+    ingredientList: IngredientListItemComponent,
+  },
+})
 export default class RecipePage extends RecipePageProps {
   // Data
   recipe: RecipeWithIngredients|null = null;
@@ -45,6 +50,11 @@ export default class RecipePage extends RecipePageProps {
       elements.push(this.$createElement('p', 'Loading...'));
     } else {
       elements.push(this.$createElement('h2', this.recipe.title));
+      elements.push(this.$createElement('ingredientList', {
+        props: {
+          list: this.recipe!.ingredients,
+        }
+      }))
     }
 
     return this.$createElement('div', elements);

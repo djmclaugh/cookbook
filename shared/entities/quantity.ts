@@ -1,4 +1,9 @@
-import { arraySanitizer, sanitizePositiveInteger, sanitizeString } from '../util';
+import {
+  arraySanitizer,
+  isSameStringArray,
+  sanitizePositiveInteger,
+  sanitizeString
+} from '../util';
 
 export interface Quantity {
   amount: number, // Must be whole and positive number
@@ -19,4 +24,11 @@ export function sanitizeQuantity(x: any, name: string): Quantity {
     modifiers: sanitizeStringArray(x.modifiers, name + '.modifiers'),
     unit: sanitizeString(x.unit, name + '.unit'),
   };
+}
+
+export function isSameQuantity(a: Quantity, b: Quantity): boolean {
+  return a.amount === b.amount
+      && a.amountDenominator == b.amountDenominator
+      && isSameStringArray(a.modifiers, b.modifiers)
+      && a.unit === b.unit
 }

@@ -55,3 +55,15 @@ export function sanitizePositiveInteger(x: any, name: string): number {
 export function identity(x: any, name: string): any {
   return x;
 }
+
+export function isSameStringArray(a: string[], b: string[]) {
+  if (a.length !== b.length) {
+    return false;
+  }
+  for (let i = 0; i < a.length; ++i) {
+    if (a[i] !== b[i]) {
+      return false;
+    }
+  }
+  return true;
+}

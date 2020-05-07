@@ -1,6 +1,6 @@
 import { arraySanitizer, sanitizePositiveInteger, sanitizeString } from '../util';
 
-import { Quantity, sanitizeQuantity } from './quantity';
+import { Quantity, isSameQuantity, sanitizeQuantity } from './quantity';
 
 export type QuantifiedIngredient = {
   quantity: Quantity,
@@ -19,6 +19,10 @@ export function sanitizeQuantifiedIngredient(x: any, name: string): QuantifiedIn
       name: sanitizeString(x.ingredient.name, name + '.ingredient.name'),
     },
   };
+}
+
+export function isSameQuantifiedIngredient(a: QuantifiedIngredient, b: QuantifiedIngredient) {
+  return isSameQuantity(a.quantity, b.quantity) && a.ingredient.name === b.ingredient.name;
 }
 
 export interface RecipeDraft {
