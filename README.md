@@ -9,7 +9,7 @@ I might restart work on this if I find nextcloud-cookbook doesn't suit my needs.
 
 Things nextcloud-cookbook does well that I haven't thought of:
 
-* Re-uses existing schema.org schema for recipes. Saves from re-inventing the wheel and get more potential interoperability for free.
+* Re-uses existing schema.org schema for recipes. Saves from re-inventing the wheel and get more potential interoperability for free. (I also discovered the Kookbook and RecipeML formats by looking into the issues)
 
 Things I would like to see in nextcloud-cookbook (will either fix in nextcloud-cookbook, give me a reason to continue working on my version, or I'll just get used to it):
 
